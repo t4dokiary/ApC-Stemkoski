@@ -2,9 +2,9 @@
 import pathlib
 import sys
 
-# Get the package directory
+# Obtener el directorio del paquete
 package_dir = str(pathlib.Path(__file__).resolve().parents[2])
-# Add the package directory into sys.path if necessary
+# Agregar el directorio del paquete a sys.path si es necesario
 if package_dir not in sys.path:
     sys.path.insert(0, package_dir)
 
@@ -26,19 +26,19 @@ from material.phong import PhongMaterial
 
 class Example(Base):
     """
-    Demonstrate:
-    - the flat shading model;
-    - the Lambert illumination model and Phong shading model;
-    - the Phong illumination model and Phong shading model.
-    The Lambert illumination model uses a combination of ambient and diffuse lighting.
-    The Phong illumination model uses ambient, diffuse, and specular lighting.
-    In the flat shading model, the light calculations are performed in the vertex shader.
-    In the Phong shading model, the light calculations are performed in the fragment shader.
+    Demostrar:
+    - el modelo de sombreado plano;
+    - el modelo de iluminación de Lambert y el modelo de sombreado de Phong;
+    - el modelo de iluminación de Phong y el modelo de sombreado de Phong.
+    El modelo de iluminación de Lambert utiliza una combinación de iluminación ambiental y difusa.
+    El modelo de iluminación de Phong utiliza iluminación ambiental, difusa y especular.
+    En el modelo de sombreado plano, los cálculos de luz se realizan en el shader de vértices.
+    En el modelo de sombreado de Phong, los cálculos de luz se realizan en el shader de fragmentos.
 
-    Move a camera: WASDRF(move), QE(turn), TG(look).
+    Mover una cámara: WASDRF(mover), QE(girar), TG(mirar).
     """
     def initialize(self):
-        print("Initializing program...")
+        print("Inicializando el programa...")
         self.renderer = Renderer()
         self.scene = Scene()
         self.camera = Camera(aspect_ratio=800/600)
@@ -47,7 +47,7 @@ class Example(Base):
         self.rig.set_position([0, 0, 6])
         self.scene.add(self.rig)
 
-        # four light sources
+        # cuatro fuentes de luz
         ambient_light = AmbientLight(color=[0.1, 0.1, 0.1])
         self.scene.add(ambient_light)
         directional_light = DirectionalLight(color=[0.8, 0.8, 0.8], direction=[-1, -1, -2])
@@ -57,7 +57,7 @@ class Example(Base):
         point_light2 = PointLight(color=[0, 0.9, 0], position=[-4, 0, 0])
         self.scene.add(point_light2)
 
-        # lighted materials with a color
+        # materiales iluminados con un color
         flat_material = FlatMaterial(
             property_dict={"baseColor": [0.2, 0.5, 0.5]},
             number_of_light_sources=4
@@ -71,7 +71,7 @@ class Example(Base):
             number_of_light_sources=4
         )
 
-        # lighted spheres with a color
+        # esferas iluminadas con un color
         sphere_geometry = SphereGeometry()
         sphere_left_top = Mesh(sphere_geometry, flat_material)
         sphere_left_top.set_position([-2.5, 1.5, 0])
@@ -83,7 +83,7 @@ class Example(Base):
         sphere_right_top.set_position([2.5, 1.5, 0])
         self.scene.add(sphere_right_top)
 
-        # lighted materials with a texture
+        # materiales iluminados con una textura
         textured_flat_material = FlatMaterial(
             texture=Texture("images/grid.jpg"),
             number_of_light_sources=4
@@ -97,7 +97,7 @@ class Example(Base):
             number_of_light_sources=4
         )
 
-        # lighted spheres with a texture
+        # esferas iluminadas con una textura
         sphere_left_bottom = Mesh(sphere_geometry, textured_flat_material)
         sphere_left_bottom.set_position([-2.5, -1.5, 0])
         self.scene.add(sphere_left_bottom)
@@ -113,5 +113,5 @@ class Example(Base):
         self.renderer.render(self.scene, self.camera)
 
 
-# Instantiate this class and run the program
+# Instanciar esta clase y ejecutar el programa
 Example(screen_size=[800, 600]).run()

@@ -3,9 +3,9 @@ import math
 import pathlib
 import sys
 
-# Get the package directory
+# Obtener el directorio del paquete
 package_dir = str(pathlib.Path(__file__).resolve().parents[2])
-# Add the package directory into sys.path if necessary
+# Agregar el directorio del paquete a sys.path si es necesario
 if package_dir not in sys.path:
     sys.path.insert(0, package_dir)
 
@@ -29,18 +29,18 @@ from material.phong import PhongMaterial
 
 class Example(Base):
     """
-    Demonstrate dynamical lighting with:
-    - the flat shading model;
-    - the Lambert illumination model and Phong shading model;
-    - the Phong illumination model and Phong shading model;
-    and render light helpers that show a light position and
-    a light direction for a point light and a directional light,
-    respectively.
+    Demostrar iluminación dinámica con:
+    - el modelo de sombreado plano;
+    - el modelo de iluminación Lambert y el modelo de sombreado Phong;
+    - el modelo de iluminación Phong y el modelo de sombreado Phong;
+    y renderizar ayudantes de luz que muestran una posición de luz y
+    una dirección de luz para una luz puntual y una luz direccional,
+    respectivamente.
 
-    Move a camera: WASDRF(move), QE(turn), TG(look).
+    Mover una cámara: WASDRF(mover), QE(girar), TG(mirar).
     """
     def initialize(self):
-        print("Initializing program...")
+        print("Inicializando programa...")
         self.renderer = Renderer()
         self.scene = Scene()
         self.camera = Camera(aspect_ratio=800/600)
@@ -49,7 +49,7 @@ class Example(Base):
         self.rig.set_position([0, 0, 6])
         self.scene.add(self.rig)
 
-        # three light sources
+        # tres fuentes de luz
         ambient_light = AmbientLight(color=[0.1, 0.1, 0.1])
         self.scene.add(ambient_light)
         self.directional_light = DirectionalLight(color=[0.8, 0.8, 0.8], direction=[-1, -1, 0])
@@ -57,7 +57,7 @@ class Example(Base):
         self.point_light = PointLight(color=[0.9, 0, 0], position=[1, 1, 0.8])
         self.scene.add(self.point_light)
 
-        # lighted materials with a color
+        # materiales iluminados con un color
         flat_material = FlatMaterial(
             property_dict={"baseColor": [0.2, 0.5, 0.5]},
             number_of_light_sources=3
@@ -71,7 +71,7 @@ class Example(Base):
             number_of_light_sources=3
         )
 
-        # lighted spheres with a color
+        # esferas iluminadas con un color
         sphere_geometry = SphereGeometry()
         sphere_left = Mesh(sphere_geometry, flat_material)
         sphere_left.set_position([-2.5, 0, 0])
@@ -83,12 +83,12 @@ class Example(Base):
         sphere_right.set_position([2.5, 0, 0])
         self.scene.add(sphere_right)
 
-        # helpers
+        # ayudantes
         directional_light_helper = DirectionalLightHelper(self.directional_light)
-        # The directional light can take any position because it covers all the space.
-        # The directional light helper is a child of the directional light.
-        # So changing the global matrix of the parent leads to changing
-        # the global matrix of its child.
+        # La luz direccional puede tomar cualquier posición porque cubre todo el espacio.
+        # El ayudante de luz direccional es un hijo de la luz direccional.
+        # Así que cambiar la matriz global del padre lleva a cambiar
+        # la matriz global de su hijo.
         self.directional_light.set_position([0, 2, 0])
         self.directional_light.add(directional_light_helper)
         point_light_helper = PointLightHelper(self.point_light)
@@ -101,5 +101,5 @@ class Example(Base):
         self.renderer.render(self.scene, self.camera)
 
 
-# Instantiate this class and run the program
+# Instanciar esta clase y ejecutar el programa
 Example(screen_size=[800, 600]).run()

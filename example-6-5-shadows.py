@@ -3,9 +3,9 @@ import math
 import pathlib
 import sys
 
-# Get the package directory
+# Obtener el directorio del paquete
 package_dir = str(pathlib.Path(__file__).resolve().parents[2])
-# Add the package directory into sys.path if necessary
+# Agregar el directorio del paquete a sys.path si es necesario
 if package_dir not in sys.path:
     sys.path.insert(0, package_dir)
 
@@ -27,7 +27,7 @@ from extras.directional_light import DirectionalLightHelper
 
 class Example(Base):
     """
-    Render shadows using shadow pass by depth buffers for the directional light.
+    Renderizar sombras usando paso de sombras por buffers de profundidad para la luz direccional.
     """
     def initialize(self):
         self.renderer = Renderer([0.2, 0.2, 0.2])
@@ -37,60 +37,60 @@ class Example(Base):
         self.rig.add(self.camera)
         self.rig.set_position([0, 2, 5])
 
-        ambient_light = AmbientLight(color=[0.2, 0.2, 0.2])
-        self.scene.add(ambient_light)
+        luz_ambiental = AmbientLight(color=[0.2, 0.2, 0.2])
+        self.scene.add(luz_ambiental)
         self.directional_light = DirectionalLight(color=[0.5, 0.5, 0.5], direction=[-1, -1, 0])
-        # The directional light can take any position because it covers all the space.
-        # The directional light helper is a child of the directional light.
-        # So changing the global matrix of the parent leads to changing
-        # the global matrix of its child.
+        # La luz direccional puede tomar cualquier posición porque cubre todo el espacio.
+        # El ayudante de luz direccional es un hijo de la luz direccional.
+        # Así que cambiar la matriz global del padre lleva a cambiar
+        # la matriz global de su hijo.
         self.directional_light.set_position([2, 4, 0])
         self.scene.add(self.directional_light)
         direct_helper = DirectionalLightHelper(self.directional_light)
         self.directional_light.add(direct_helper)
 
-        sphere_geometry = SphereGeometry()
-        phong_material = PhongMaterial(
+        esfera_geometría = SphereGeometry()
+        material_phong = PhongMaterial(
             texture=Texture("images/grid.jpg"),
             number_of_light_sources=2,
             use_shadow=True
         )
 
-        sphere1 = Mesh(sphere_geometry, phong_material)
-        sphere1.set_position([-2, 1, 0])
-        self.scene.add(sphere1)
+        esfera1 = Mesh(esfera_geometría, material_phong)
+        esfera1.set_position([-2, 1, 0])
+        self.scene.add(esfera1)
 
-        sphere2 = Mesh(sphere_geometry, phong_material)
-        sphere2.set_position([1, 2.2, -0.5])
-        self.scene.add(sphere2)
+        esfera2 = Mesh(esfera_geometría, material_phong)
+        esfera2.set_position([1, 2.2, -0.5])
+        self.scene.add(esfera2)
 
         self.renderer.enable_shadows(self.directional_light)
 
         """
-        # optional: render depth texture to mesh in scene
-        depth_texture = self.renderer.shadow_object.render_target.texture
-        shadow_display = Mesh(RectangleGeometry(), TextureMaterial(depth_texture))
-        shadow_display.set_position([-1, 3, 0])
-        self.scene.add(shadow_display)
+        # opcional: renderizar textura de profundidad a malla en la escena
+        textura_profundidad = self.renderer.shadow_object.render_target.texture
+        mostrar_sombra = Mesh(RectangleGeometry(), TextureMaterial(textura_profundidad))
+        mostrar_sombra.set_position([-1, 3, 0])
+        self.scene.add(mostrar_sombra)
         """
 
-        floor = Mesh(RectangleGeometry(width=20, height=20), phong_material)
-        floor.rotate_x(-math.pi / 2)
-        self.scene.add(floor)
+        piso = Mesh(RectangleGeometry(width=20, height=20), material_phong)
+        piso.rotate_x(-math.pi / 2)
+        self.scene.add(piso)
 
     def update(self):
         #"""
-        # view dynamic shadows -- need to increase shadow camera range
+        # ver sombras dinámicas -- necesita aumentar el rango de la cámara de sombras
         self.directional_light.rotate_y(0.01337, False)
         #"""
-        self.rig.update( self.input, self.delta_time)
+        self.rig.update(self.input, self.delta_time)
         self.renderer.render(self.scene, self.camera)
         """
-        # render scene from shadow camera
-        shadow_camera = self.renderer.shadow_object.camera
-        self.renderer.render(self.scene, shadow_camera)
+        # renderizar escena desde la cámara de sombras
+        cámara_sombra = self.renderer.shadow_object.camera
+        self.renderer.render(self.scene, cámara_sombra)
         """
 
 
-# Instantiate this class and run the program
+# Instanciar esta clase y ejecutar el programa
 Example(screen_size=[800, 600]).run()

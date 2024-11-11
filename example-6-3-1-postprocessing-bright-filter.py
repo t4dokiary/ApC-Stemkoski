@@ -3,9 +3,9 @@ import math
 import pathlib
 import sys
 
-# Get the package directory
+# Obtener el directorio del paquete
 package_dir = str(pathlib.Path(__file__).resolve().parents[2])
-# Add the package directory into sys.path if necessary
+# Agregar el directorio del paquete a sys.path si es necesario
 if package_dir not in sys.path:
     sys.path.insert(0, package_dir)
 
@@ -25,10 +25,10 @@ from effects.bright_filter import BrightFilterEffect
 
 class Example(Base):
     """
-    Demonstrate a bright-filter effect
+    Demostrar un efecto de filtro brillante
     """
     def initialize(self):
-        print("Initializing program...")
+        print("Inicializando programa...")
         self.renderer = Renderer()
         self.scene = Scene()
         self.camera = Camera(aspect_ratio=800/600)
@@ -65,5 +65,5 @@ class Example(Base):
         self.postprocessor.render()
 
 
-# Instantiate this class and run the program
+# Instanciar esta clase y ejecutar el programa
 Example(screen_size=[800, 600]).run()

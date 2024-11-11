@@ -3,9 +3,9 @@ import math
 import pathlib
 import sys
 
-# Get the package directory
+# Obtener el directorio del paquete
 package_dir = str(pathlib.Path(__file__).resolve().parents[2])
-# Add the package directory into sys.path if necessary
+# Agregar el directorio del paquete a sys.path si es necesario
 if package_dir not in sys.path:
     sys.path.insert(0, package_dir)
 
@@ -23,9 +23,9 @@ from material.lambert import LambertMaterial
 
 
 class Example(Base):
-    """ Bump mapping: combining color textures with normal map textures """
+    """ Mapeo de relieve: combinando texturas de color con texturas de mapa normal """
     def initialize(self):
-        print("Initializing program...")
+        print("Inicializando programa...")
         self.renderer = Renderer()
         self.scene = Scene()
         self.camera = Camera(aspect_ratio=800/600)
@@ -35,9 +35,9 @@ class Example(Base):
         self.scene.add(ambient_light)
         self.point_light = PointLight(color=[1, 1, 1], position=[1, 0, 1])
         self.scene.add(self.point_light)
-        # texture of a brick wall
+        # textura de una pared de ladrillos
         color_texture = Texture("images/brick-wall.jpg")
-        # texture of normals of the brick wall
+        # textura de normales de la pared de ladrillos
         bump_texture = Texture("images/brick-wall-normal-map.jpg")
 
         rectangle_geometry = RectangleGeometry(width=2, height=2)
@@ -54,8 +54,8 @@ class Example(Base):
             number_of_light_sources=2
         )
 
-        # Replace color_material and bump_material
-        # in Mesh to see a difference
+        # Reemplazar color_material y bump_material
+        # en Mesh para ver una diferencia
         mesh = Mesh(rectangle_geometry, bump_material)
         self.scene.add(mesh)
 
@@ -67,5 +67,5 @@ class Example(Base):
         self.renderer.render(self.scene, self.camera)
 
 
-# Instantiate this class and run the program
+# Instanciar esta clase y ejecutar el programa
 Example(screen_size=[800, 600]).run()
